@@ -6,6 +6,7 @@ import com.example.workings.taskservice.model.ProjectDetailedResponse;
 import com.example.workings.taskservice.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +20,7 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     TaskRepository taskRepository;
 
+    @LoadBalanced
     @Bean
     RestTemplate getRestTemplate(RestTemplateBuilder builder) {
         return builder.build();
@@ -97,6 +99,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Project getProject(int projectId) {
-        return restTemplate.getForObject("http://localhost:9191/services/projects/"+projectId,Project.class);
+        return restTemplate.getForObject("http://project/services/projects/"+projectId,Project.class);
     }
 }
