@@ -2,6 +2,7 @@ package com.example.workings.taskservice.service;
 
 import com.chanaka.workings.commons.model.Project;
 import com.chanaka.workings.commons.model.Task;
+import com.example.workings.taskservice.hystrix.ProjectCommand;
 import com.example.workings.taskservice.model.ProjectDetailedResponse;
 import com.example.workings.taskservice.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Project getProject(int projectId) {
-        return restTemplate.getForObject("http://project/services/projects/"+projectId,Project.class);
+        ProjectCommand projectCommand = new ProjectCommand(restTemplate,projectId);
+        return projectCommand.execute();
     }
 }
